@@ -68,3 +68,5 @@ Vocabularies + mapping files used to match the model’s tokenization.
 
 pretrain_shrunk_for_ours_chr.pth
 Pretrained checkpoint used as initialization for fine-tuning.
+
+Data availability : https://drive.google.com/drive/folders/1xsziV5dKn1OpicRk0XZyA-heWbwc2NvT 
