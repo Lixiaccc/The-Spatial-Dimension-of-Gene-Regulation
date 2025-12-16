@@ -1,0 +1,68 @@
+task_name: finetune_ours_3000hvg_v2
+
+train:
+  seed: 0
+  epochs: 1000
+  batch_size: 32
+  gradient_accumulation_steps: 1
+  lr: 1.0e-4
+  amp: True
+  save_ckpt_freq: 5
+  resume: False
+
+  model:
+    encoder: transformer
+    embedding_dim: 512
+    num_layers: 8
+    head_num: 8
+    head_dim: 64
+    dropout: 0.1
+    rna_max_len: 3000
+    atac_max_len: 5000
+    cell_emb_style: cls
+    mvc_arch_style: "inner product"    # 🔴 this line is the important one
+    use_batch_labels: True
+    use_chr_labels: True
+    pretrained: /insomnia001/depts/msph/users/lc3716/EpiFoundation/pretrain_shrunk_for_ours_chr.pth
+  task_weight:
+    mvc: 1.0
+    cell_type: 0.0   # only expression loss
+
+  early_stop:
+    patience: 10
+    min_delta: 0.0
+
+valid:
+  freq: 1
+
+data:
+  bin_num: 8
+  train:
+    rna_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/data/ours/processed/rna_train_binned_hvg3000_fixed_with_spatial.h5ad
+    atac_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/data/ours/processed/atac_train_fixed_xy.h5ad
+    rna_key: X_binned
+    atac_key: counts
+  val:
+    rna_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/data/ours/processed/rna_val_binned_hvg3000_fixed_with_spatial.h5ad
+    atac_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/data/ours/processed/atac_val_fixed_xy.h5ad
+    rna_key: X_binned
+    atac_key: counts
+
+vocab:
+  rna_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/rna_vocab_ours_canonical.json
+  atac_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/atac_vocab_ours.json
+  cell_type_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/cell_full.json
+  batch_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/batch_full.json
+  chr_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/chr_vocab_ours.json
+  gene2chr_path: /insomnia001/depts/msph/users/lc3716/EpiFoundation/gene2chr_ours_canonical.json
+  special_tokens:
+    pad:
+      token: "<pad>"
+      value: 0
+    mask:
+      token: "<mask>"
+      value: 0
+    cls:
+      token: "<cls>"
+      value: 0
+
