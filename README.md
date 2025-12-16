@@ -1,4 +1,4 @@
-EpiFoundation Spatial Refinement (ATAC → RNA with GNN + CCC)
+**EpiFoundation Spatial Refinement (ATAC → RNA with GNN + CCC)**
 
 This repository contains the code for our course/research project:
 
